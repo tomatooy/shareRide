@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,48 +40,54 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView textView = findViewById( R.id.textView );
+        Button loginDriver =  findViewById(R.id.DriverLogin);
+        Button loginRider =  findViewById(R.id.RiderLogin);
+        Button registerButton = findViewById(R.id.registerButton);
+        loginRider.setOnClickListener( new SignInButtonClickListener());
+        loginDriver.setOnClickListener(new SignInButtonClickListener());
+        registerButton.setOnClickListener(new RegisterButtonClickListener());
 
-        mAuth = FirebaseAuth.getInstance();
-        String email = "dawg@mail.com";
-        String password = "password";
-
-        mAuth.signInWithEmailAndPassword( email, password )
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference( "message" );
-
-        // Read from the database value for ”message”
-        myRef.addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange( DataSnapshot dataSnapshot ) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String message = dataSnapshot.getValue( String.class );
-                textView.setText( message );
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w( TAG, "Failed to read value.", error.toException() );
-            }
-        });
+//        mAuth = FirebaseAuth.getInstance();
+//        String email = "dawg@mail.com";
+//        String password = "password";
+//
+//        mAuth.signInWithEmailAndPassword( email, password )
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "signInWithEmail:success");
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.d(TAG, "signInWithEmail:failure", task.getException());
+//                            Toast.makeText(MainActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference( "message" );
+//
+//        // Read from the database value for ”message”
+//        myRef.addValueEventListener( new ValueEventListener() {
+//            @Override
+//            public void onDataChange( DataSnapshot dataSnapshot ) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//                String message = dataSnapshot.getValue( String.class );
+//                textView.setText( message );
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Failed to read value
+//                Log.w( TAG, "Failed to read value.", error.toException() );
+//            }
+//        });
     }
     private class SignInButtonClickListener implements View.OnClickListener {
         @Override
@@ -97,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             Intent signInIntent = AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAvailableProviders(providers)
+                    .setLogo(R.drawable.logo)
                     // this sets our own theme (color scheme, sizing, etc.) for the AuthUI's appearance
                     .setTheme(R.style.LoginTheme)
                     .build();

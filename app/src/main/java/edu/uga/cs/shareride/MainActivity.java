@@ -35,13 +35,16 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "ShareRide";
     private static final String DEBUG_TAG = "debug" ;
     private FirebaseAuth mAuth;
+    private Button loginDriver;
+    private Button loginRider;
+    private int SigninType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView textView = findViewById( R.id.textView );
-        Button loginDriver =  findViewById(R.id.DriverLogin);
-        Button loginRider =  findViewById(R.id.RiderLogin);
+        loginDriver =  findViewById(R.id.DriverLogin);
+        loginRider =  findViewById(R.id.RiderLogin);
         Button registerButton = findViewById(R.id.registerButton);
         loginRider.setOnClickListener( new SignInButtonClickListener());
         loginDriver.setOnClickListener(new SignInButtonClickListener());
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
     private class SignInButtonClickListener implements View.OnClickListener {
+
         @Override
         public void onClick( View v ) {
             // This is an example of how to use the AuthUI activity for signing in to Firebase.
@@ -108,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     // this sets our own theme (color scheme, sizing, etc.) for the AuthUI's appearance
                     .setTheme(R.style.LoginTheme)
                     .build();
+            SigninType = v.getId();
             signInLauncher.launch(signInIntent);
         }
     }
@@ -141,9 +146,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //Log.d( DEBUG_TAG, "MainActivity.onSignInResult: Signed in as: " + user.getEmail() );
-
+            Intent intent;
             // after a successful sign in, start the job leads management activity
-            Intent intent = new Intent( this, DriverMain.class );
+            if(SigninType == loginDriver.getId() ){
+                intent = new Intent( this, DriverMain.class );
+            }
+            else{
+                intent = new Intent( this, RiderMain.class );
+            }
             startActivity( intent );
         }
         else {

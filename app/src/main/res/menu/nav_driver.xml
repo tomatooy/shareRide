@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/requested_ride"
+        android:icon="@drawable/ic_list"
+        android:title="Requested Ride" />
+    <item
+        android:id="@+id/posted_ride"
+        android:icon="@drawable/ic_map"
+        android:title="Posted Ride" />
+    <item
+        android:id="@+id/new_ride"
+        android:icon="@drawable/ic_add"
+        android:title="Post A Ride" />
+    <item
+        android:id="@+id/confirmed_ride"
+        android:icon="@drawable/ic_confirmed"
+        android:title="Confirmed Ride" />
+
+</menu>

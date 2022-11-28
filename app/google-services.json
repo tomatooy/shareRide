@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "891493720383",
+    "firebase_url": "https://shareride-1eea2-default-rtdb.firebaseio.com",
+    "project_id": "shareride-1eea2",
+    "storage_bucket": "shareride-1eea2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891493720383:android:dca723e780411442f6738a",
+        "android_client_info": {
+          "package_name": "edu.uga.cs.shareride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891493720383-qu582jvo640hg3a4rr2kgcks1apgacgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOF5oOb2XTT9mikfoS3-76knnKKDy_bEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891493720383-qu582jvo640hg3a4rr2kgcks1apgacgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

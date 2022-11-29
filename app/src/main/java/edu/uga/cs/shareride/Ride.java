@@ -5,7 +5,7 @@ import java.util.Date;
 public class Ride {
     private String From;
     private String To;
-    private Date date;
+    private String date;
     private int pointCost;
 
     public Ride(){
@@ -15,14 +15,14 @@ public class Ride {
         this.pointCost = 0;
     }
 
-    public Ride(String From,String To, Date date, int cost){
+    public Ride(String From,String To, String date, int cost){
         this.From = From;
         this.To = To;
         this.date = date;
         this.pointCost = cost;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -38,7 +38,7 @@ public class Ride {
         To = to;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 

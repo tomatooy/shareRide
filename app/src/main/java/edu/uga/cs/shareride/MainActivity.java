@@ -35,22 +35,18 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "ShareRide";
     private static final String DEBUG_TAG = "debug" ;
     private FirebaseAuth mAuth;
-    private Button loginDriver;
-    private Button loginRider;
+    private Button login;
+
     private int SigninType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView textView = findViewById( R.id.textView );
-        loginDriver =  findViewById(R.id.DriverLogin);
-        loginRider =  findViewById(R.id.RiderLogin);
+        login =  findViewById(R.id.Login);
         Button registerButton = findViewById(R.id.registerButton);
-        loginRider.setOnClickListener( new SignInButtonClickListener());
-        loginDriver.setOnClickListener(new SignInButtonClickListener());
         registerButton.setOnClickListener(new RegisterButtonClickListener());
-
-//        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 //        String email = "dawg@mail.com";
 //        String password = "password";
 //
@@ -92,12 +88,30 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    private class SignInButtonClickListener implements View.OnClickListener {
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            signedIn();
+        } else {
+            // No user is signed in
+            login.setOnClickListener( new SignInButtonClickListener());
+        }
+    }
+
+
+
+
+    private class SignInButtonClickListener implements View.OnClickListener   {
 
         @Override
         public void onClick( View v ) {
             // This is an example of how to use the AuthUI activity for signing in to Firebase.
             // Here, we are just using email/password sign in.
+
             List<AuthUI.IdpConfig> providers = Arrays.asList(
                     new AuthUI.IdpConfig.EmailBuilder().build()
             );
@@ -146,15 +160,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //Log.d( DEBUG_TAG, "MainActivity.onSignInResult: Signed in as: " + user.getEmail() );
-            Intent intent;
             // after a successful sign in, start the job leads management activity
-            if(SigninType == loginDriver.getId() ){
-                intent = new Intent( this, DriverMain.class );
-            }
-            else{
-                intent = new Intent( this, RiderMain.class );
-            }
-            startActivity( intent );
+
         }
         else {
             Log.d( DEBUG_TAG, "MainActivity.onSignInResult: Failed to sign in" );
@@ -173,4 +180,10 @@ public class MainActivity extends AppCompatActivity {
             view.getContext().startActivity(intent);
         }
     }
+    private void signedIn(){
+       Intent intent = new Intent( this, MainPortal.class );
+       startActivity(intent);
+       finish();
+    }
+
 }

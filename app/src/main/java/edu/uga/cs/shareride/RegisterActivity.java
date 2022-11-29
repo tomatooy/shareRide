@@ -17,6 +17,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Pattern;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -68,13 +70,26 @@ public class RegisterActivity extends AppCompatActivity {
                                 startActivity( intent );
 
                             } else {
+                                String res = validateEmail(email);
                                 // If sign in fails, display a message to the user.
                                 Log.w(DEBUG_TAG, "createUserWithEmail: failure", task.getException());
-                                Toast.makeText(RegisterActivity.this, "Registration failed.",
+                                Toast.makeText(RegisterActivity.this, res,
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         }
+    }
+
+    public String validateEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return "Cannot be empty";
+        }
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +"[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        if (pattern.matcher(email).matches()) {
+            return "Email is registered";
+        }
+        return "Email not valid";
     }
 }

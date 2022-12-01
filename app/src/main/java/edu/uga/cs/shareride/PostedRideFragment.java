@@ -31,8 +31,7 @@ public class PostedRideFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RideRecyclerAdapter recyclerAdapter;
-
-    private List<Ride> RideList;
+    private List<Ride> RideList = new ArrayList<Ride>();;
 
     private FirebaseDatabase database;
     public PostedRideFragment() {
@@ -43,14 +42,12 @@ public class PostedRideFragment extends Fragment {
     public static PostedRideFragment newInstance(String param1, String param2) {
         PostedRideFragment fragment = new PostedRideFragment();
         Bundle args = new Bundle();
-
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RideList = new ArrayList<Ride>();
     }
 
     @Override
@@ -66,11 +63,10 @@ public class PostedRideFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         // Inflate the layout for this fragment
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = getView().findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager( layoutManager );
         recyclerAdapter = new RideRecyclerAdapter( getActivity(), RideList);
         recyclerView.setAdapter( recyclerAdapter );
-
         // get a Firebase DB instance reference
         database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("rideOffer");
@@ -104,4 +100,5 @@ public class PostedRideFragment extends Fragment {
             }
         } );
     }
+
 }

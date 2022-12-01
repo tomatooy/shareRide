@@ -19,7 +19,7 @@ public class RiderMain extends AppCompatActivity implements BottomNavigationView
         bottomNavigationView = findViewById(R.id.navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.requested_ride);
+        bottomNavigationView.setSelectedItemId(R.id.new_ride);
 
         // When we open the application first
         // time the fragment should be shown to the user
@@ -33,7 +33,7 @@ public class RiderMain extends AppCompatActivity implements BottomNavigationView
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.posted_ride:_ride:
+            case R.id.posted_ride:
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, postedFrag).commit();
                 return true;
             case R.id.new_ride:
@@ -42,6 +42,9 @@ public class RiderMain extends AppCompatActivity implements BottomNavigationView
             case R.id.confirmed_ride:
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, confirmedFrag).commit();
                 return true;
+            default:
+                getSupportFragmentManager().beginTransaction().replace(R.id.Frame, newRideFrag).commit();
+
         }
         return false;
     }

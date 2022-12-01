@@ -22,7 +22,7 @@ public class DriverMain extends AppCompatActivity implements BottomNavigationVie
         bottomNavigationView = findViewById(R.id.navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.requested_ride);
+        bottomNavigationView.setSelectedItemId(R.id.new_ride);
 
         // When we open the application first
         // time the fragment should be shown to the user

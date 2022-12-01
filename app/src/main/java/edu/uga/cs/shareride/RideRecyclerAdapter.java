@@ -40,7 +40,6 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
 
     @Override
     public void onBindViewHolder(RideHolder holder, int position) {
-
         Ride ride = rideList.get(position);
         Log.d(DEBUG_TAG, "onBindViewHolder " + ride);
         holder.destination.setText(ride.getDestLocation());

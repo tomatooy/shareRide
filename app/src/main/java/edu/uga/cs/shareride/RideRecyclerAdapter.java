@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
 
     private List<Ride> rideList;
 
-    public RideRecyclerAdapter(List<Ride> rideList) {
+    public RideRecyclerAdapter(FragmentActivity activity, List<Ride> rideList) {
         this.rideList = rideList;
     }
 
@@ -25,7 +26,6 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
 
         public RideHolder(View itemView) {
             super(itemView);
-
             destination = itemView.findViewById(R.id.destAddress);
             departure = itemView.findViewById(R.id.startAddress);
             time = itemView.findViewById(R.id.time);
@@ -40,10 +40,9 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
 
     @Override
     public void onBindViewHolder(RideHolder holder, int position) {
+
         Ride ride = rideList.get(position);
-
         Log.d(DEBUG_TAG, "onBindViewHolder " + ride);
-
         holder.destination.setText(ride.getDestLocation());
         holder.departure.setText(ride.getStartLocation());
         holder.time.setText(ride.getDate());

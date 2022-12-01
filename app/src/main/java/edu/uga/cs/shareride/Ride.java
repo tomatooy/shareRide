@@ -78,7 +78,7 @@ public class Ride {
         this.date = null;
     }
 
-    public Ride(Boolean offer, Integer points, String destination, String start, String time) {
+    public Ride(Boolean offer, Integer points, String start,String destination, String time) {
         this.isOffer = offer;
         this.pointCost = points;
         this.destLocation = destination;

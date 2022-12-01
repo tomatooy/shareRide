@@ -3,6 +3,7 @@ package edu.uga.cs.shareride;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -72,7 +73,8 @@ public class NewRideFragment extends Fragment  {
             String fromData = From.getText().toString();
             String toData = To.getText().toString();
             String dateData = Date.getText().toString();
-            Ride newRide = new Ride(fromData,toData,dateData,cost);
+            Integer cost = new Integer(50);
+            Ride newRide = new Ride(true,cost,fromData,toData,dateData);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("rideOffer");
 

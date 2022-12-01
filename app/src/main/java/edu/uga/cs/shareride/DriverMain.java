@@ -37,9 +37,6 @@ public class DriverMain extends AppCompatActivity implements BottomNavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.posted_ride:
-                getSupportFragmentManager().beginTransaction().replace(R.id.Frame, postedFrag).commit();
-                return true;
             case R.id.requested_ride:
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, requestedFrag).commit();
                 return true;

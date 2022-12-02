@@ -58,28 +58,30 @@ public class Ride {
 */
 
 public class Ride {
-    private Boolean isOffer;
-    private Boolean isAccepted;
-    private Boolean isConfirmed;
-    private String driverID;
+    private String key;
+    //private Boolean isOffer;
+    //private Boolean isAccepted;
+    //private Boolean isConfirmed;
+    //private String driverID;
     private Integer pointCost;
     private String destLocation;
     private String startLocation;
     private String date;
 
     public Ride() {
-        this.isOffer = null;
-        this.isAccepted = false;
-        this.isConfirmed = false;
-        this.driverID = null;
+        this.key = null;
+        //this.isOffer = null;
+        //this.isAccepted = false;
+        //this.isConfirmed = false;
+        //this.driverID = null;
         this.pointCost = null;
         this.destLocation = null;
         this.startLocation = null;
         this.date = null;
     }
 
-    public Ride(Boolean offer, Integer points, String start,String destination, String time) {
-        this.isOffer = offer;
+    public Ride(Integer points, String start,String destination, String time) {
+        //this.isOffer = offer;
         this.pointCost = points;
         this.destLocation = destination;
         this.startLocation = start;
@@ -87,18 +89,21 @@ public class Ride {
     }
 
     // getters
-    public Boolean getIsOffer() {
-        return isOffer;
+    public String getKey() {
+        return key;
     }
-    public Boolean getIsAccepted() {
-        return isAccepted;
-    }
-    public Boolean getIsConfirmed() {
-        return isConfirmed;
-    }
-    public String getDriverID() {
-        return driverID;
-    }
+    //public Boolean getIsOffer() {
+        //return isOffer;
+    //}
+    //public Boolean getIsAccepted() {
+      //  return isAccepted;
+    //}
+    //public Boolean getIsConfirmed() {
+    //    return isConfirmed;
+    //}
+    //public String getDriverID() {
+     //   return driverID;
+    //}
     public Integer getPointCost() {
         return pointCost;
     }
@@ -111,18 +116,21 @@ public class Ride {
     public String getDate() { return date; }
 
     // setters
-    public void setIsOffer(Boolean isOffer) {
-        this.isOffer = isOffer;
+    public void setKey(String key) {
+        this.key = key;
     }
-    public void setIsAccepted(Boolean isAccepted) {
-        this.isAccepted = isAccepted;
-    }
-    public void setIsConfirmed(Boolean isConfirmed) {
-        this.isConfirmed = isConfirmed;
-    }
-    public void setDriverID(String driverID) {
-        this.driverID = driverID;
-    }
+    //public void setIsOffer(Boolean isOffer) {
+     //   this.isOffer = isOffer;
+    //}
+    //public void setIsAccepted(Boolean isAccepted) {
+     //   this.isAccepted = isAccepted;
+    //}
+    //public void setIsConfirmed(Boolean isConfirmed) {
+     //   this.isConfirmed = isConfirmed;
+    //}
+    //public void setDriverID(String driverID) {
+     //   this.driverID = driverID;
+    //}
     public void setPointCost(Integer pointCost) {
         this.pointCost = pointCost;
     }

@@ -33,7 +33,7 @@ public class NewRideFragment extends Fragment  {
     private Button button;
     private int cost = 50;
     final String Tag ="debug";
-    private String TABLE;
+    private String dbName;
     public NewRideFragment() {
         // Required empty public constructor
     }
@@ -59,10 +59,10 @@ public class NewRideFragment extends Fragment  {
         // Inflate the layout for this
         String site = this.getArguments().getString("site");
         if(site.equals("Driver")){
-            TABLE = "rideOffer";
+            dbName = "rideOffer";
         }
         else{
-            TABLE = "rideRequest";
+            dbName = "rideRequest";
         }
         final View layout = inflater.inflate(R.layout.fragment_new_ride,
                 getActivity().findViewById(R.id.diagRoot));
@@ -84,7 +84,7 @@ public class NewRideFragment extends Fragment  {
             Integer cost = new Integer(50);
             Ride newRide = new Ride(cost,fromData,toData,dateData);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference(TABLE);
+            DatabaseReference myRef = database.getReference(dbName);
 
             // First, a call to push() appends a new node to the existing list (one is created
             // if this is done for the first time).  Then, we set the value in the newly created

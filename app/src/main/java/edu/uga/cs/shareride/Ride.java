@@ -17,7 +17,6 @@ public class Ride {
     }
 
     public Ride(Integer points, String start,String destination, String time) {
-        //this.isOffer = offer;
         this.pointCost = points;
         this.destLocation = destination;
         this.startLocation = start;

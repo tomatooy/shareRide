@@ -88,13 +88,19 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/ConfirmRide"
+            <TextView
+                android:id="@+id/DriverEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Confirm Ride"
-                android:textSize="10sp" />
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/RiderEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
 
         </LinearLayout>
 

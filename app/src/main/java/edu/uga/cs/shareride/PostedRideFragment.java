@@ -39,6 +39,7 @@ public class PostedRideFragment extends Fragment implements EditOfferFragment.Ed
     private List<Ride> RideList = new ArrayList<Ride>();;
     final String DEBUG_TAG = "PostRide";
     private FirebaseDatabase database;
+    private String dbName;
     public PostedRideFragment() {
         // Required empty public constructor
     }
@@ -66,6 +67,14 @@ public class PostedRideFragment extends Fragment implements EditOfferFragment.Ed
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String site = this.getArguments().getString("site");
+        if(site.equals("Driver")){
+            dbName = "rideOffer";
+        }
+        else{
+            dbName = "rideRequest";
+        }
+        Log.d("checkDB",dbName);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity() );
         // Inflate the layout for this fragment
         recyclerView = getView().findViewById(R.id.recyclerView);
@@ -74,7 +83,7 @@ public class PostedRideFragment extends Fragment implements EditOfferFragment.Ed
         recyclerView.setAdapter( recyclerAdapter );
         // get a Firebase DB instance reference
         database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("rideOffer");
+        DatabaseReference myRef = database.getReference(dbName);
 
         // Set up a listener (event handler) to receive a value for the database reference.
         // This type of listener is called by Firebase once by immediately executing its onDataChange method
@@ -90,6 +99,8 @@ public class PostedRideFragment extends Fragment implements EditOfferFragment.Ed
                 RideList.clear(); // clear the current content; this is inefficient!
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     Ride ride = postSnapshot.getValue(Ride.class);
+                    ride.setKey(postSnapshot.getKey());
+                    Log.d("snapKey",postSnapshot.getKey());
                     RideList.add( ride );
 //                    Log.d( DEBUG_TAG, "ValueEventListener: added: " + jobLead );
 //                    Log.d( DEBUG_TAG, "ValueEventListener: key: " + postSnapshot.getKey() );
@@ -108,40 +119,40 @@ public class PostedRideFragment extends Fragment implements EditOfferFragment.Ed
 
     public void updateOfferRide(int position, Ride ride, int action ) {
         if( action == EditOfferFragment.SAVE ) {
-            Log.d( DEBUG_TAG, "Updating job lead at: " + position + "(" + ride.getKey() + ")" );
+                Log.d( DEBUG_TAG, "Updating job lead at: " + position + "(" + ride.getKey() + ")" );
 
-            // Update the recycler view to show the changes in the updated job lead in that view
-            recyclerAdapter.notifyItemChanged( position );
+                // Update the recycler view to show the changes in the updated job lead in that view
+                recyclerAdapter.notifyItemChanged( position );
 
-            // Update this job lead in Firebase
-            // Note that we are using a specific key (one child in the list)
-            DatabaseReference ref = database
-                    .getReference()
-                    .child( "rideOffer" )
-                    .child( ride.getKey() );
+                // Update this job lead in Firebase
+                // Note that we are using a specific key (one child in the list)
+                DatabaseReference ref = database
+                        .getReference()
+                        .child(dbName)
+                        .child( ride.getKey() );
+            Log.d("checkKey11",ride.getKey());
 
             // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
-            // to maintain job leads.
-            ref.addListenerForSingleValueEvent( new ValueEventListener() {
-                @Override
-                public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
-                    dataSnapshot.getRef().setValue(ride).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d( DEBUG_TAG, "updated job lead at: " + position + "(" + ride.getKey() + ")" );
-                            Toast.makeText(getActivity().getApplicationContext(), "Job lead updated for " + ride.getKey(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                // to maintain job leads.
+                ref.addListenerForSingleValueEvent( new ValueEventListener() {
+                    @Override
+                    public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
+                        dataSnapshot.getRef().setValue(ride).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getActivity().getApplicationContext(), "Job lead updated for " + ride.getKey(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
 
-                @Override
-                public void onCancelled( @NonNull DatabaseError databaseError ) {
-                    Log.d( DEBUG_TAG, "failed to update job lead at: " + position + "(" + ride.getKey() + ")" );
-                    Toast.makeText(getActivity().getApplicationContext(), "Failed to update " + ride.getKey(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onCancelled( @NonNull DatabaseError databaseError ) {
+                        Log.d( DEBUG_TAG, "failed to update job lead at: " + position + "(" + ride.getKey() + ")" );
+                        Toast.makeText(getActivity().getApplicationContext(), "Failed to update " + ride.getKey(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
         }
         else if( action == EditOfferFragment.DELETE ) {
             Log.d( DEBUG_TAG, "Deleting job lead at: " + position + "(" + ride.getKey()+ ")" );
@@ -156,9 +167,9 @@ public class PostedRideFragment extends Fragment implements EditOfferFragment.Ed
             // Note that we are using a specific key (one child in the list)
             DatabaseReference ref = database
                     .getReference()
-                    .child( "rideOffer" )
+                    .child(dbName)
                     .child( ride.getKey() );
-
+            Log.d("checkKey11",ride.getKey());
             // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
             // to maintain job leads.
             ref.addListenerForSingleValueEvent( new ValueEventListener() {

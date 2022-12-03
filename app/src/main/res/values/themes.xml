@@ -4,14 +4,12 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_dark</item>
         <item name="colorPrimaryVariant">@color/blue_dark</item>
-        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue_dark</item>
         <item name="colorSecondaryVariant">@color/blue_dark</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
     </style>
 
     <style name="LoginTheme" parent="FirebaseUI">
@@ -41,16 +39,16 @@
     </style>
 
     <!-- Custom styling of the AlertDialog. -->
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:colorAccent">@color/red</item>
-        <item name="android:textColor">@color/green</item>
+    <style name="AlertDialogStyles" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/blue</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/blue</item>
 
         <!-- Styling the OK (positive) and Cancel (negative) buttons of the AlertDialog -->
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-        <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/NeutralButtonStyle</item>
 
 
         <!-- Styling the size of the AlertDialog in terms of the screen size -->
@@ -58,15 +56,15 @@
         <item name="windowMinWidthMinor">70%</item>
     </style>
 
-    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/red</item>
     </style>
 
-    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/red</item>
     </style>
 
-    <style name="NeutralButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="NeutralButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/red</item>
     </style>
 

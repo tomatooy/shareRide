@@ -23,7 +23,10 @@ public class DriverMain extends AppCompatActivity implements BottomNavigationVie
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.new_ride);
-
+        Bundle bundle = new Bundle();
+        bundle.putString("site","Driver");
+        postedFrag.setArguments(bundle);
+        newRideFrag.setArguments(bundle);
         // When we open the application first
         // time the fragment should be shown to the user
         // in this case it is home fragment
@@ -38,7 +41,7 @@ public class DriverMain extends AppCompatActivity implements BottomNavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.requested_ride:
-                getSupportFragmentManager().beginTransaction().replace(R.id.Frame, requestedFrag).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.Frame, postedFrag).commit();
                 return true;
             case R.id.new_ride:
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, newRideFrag).commit();

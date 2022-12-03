@@ -1,5 +1,8 @@
 package edu.uga.cs.shareride;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,12 +32,12 @@ import java.util.List;
  * Use the {@link PostedRideFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PostedRideFragment extends Fragment {
+public class PostedRideFragment extends Fragment implements EditOfferFragment.EditOfferListener {
 
     private RecyclerView recyclerView;
     private RideRecyclerAdapter recyclerAdapter;
     private List<Ride> RideList = new ArrayList<Ride>();;
-
+    final String DEBUG_TAG = "PostRide";
     private FirebaseDatabase database;
     public PostedRideFragment() {
         // Required empty public constructor
@@ -65,7 +70,7 @@ public class PostedRideFragment extends Fragment {
         // Inflate the layout for this fragment
         recyclerView = getView().findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager( layoutManager );
-        recyclerAdapter = new RideRecyclerAdapter( getActivity(), RideList);
+        recyclerAdapter = new RideRecyclerAdapter( getActivity(),PostedRideFragment.this, RideList);
         recyclerView.setAdapter( recyclerAdapter );
         // get a Firebase DB instance reference
         database = FirebaseDatabase.getInstance();
@@ -100,5 +105,83 @@ public class PostedRideFragment extends Fragment {
             }
         } );
     }
+
+    public void updateOfferRide(int position, Ride ride, int action ) {
+        if( action == EditOfferFragment.SAVE ) {
+            Log.d( DEBUG_TAG, "Updating job lead at: " + position + "(" + ride.getKey() + ")" );
+
+            // Update the recycler view to show the changes in the updated job lead in that view
+            recyclerAdapter.notifyItemChanged( position );
+
+            // Update this job lead in Firebase
+            // Note that we are using a specific key (one child in the list)
+            DatabaseReference ref = database
+                    .getReference()
+                    .child( "rideOffer" )
+                    .child( ride.getKey() );
+
+            // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
+            // to maintain job leads.
+            ref.addListenerForSingleValueEvent( new ValueEventListener() {
+                @Override
+                public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
+                    dataSnapshot.getRef().setValue(ride).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d( DEBUG_TAG, "updated job lead at: " + position + "(" + ride.getKey() + ")" );
+                            Toast.makeText(getActivity().getApplicationContext(), "Job lead updated for " + ride.getKey(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled( @NonNull DatabaseError databaseError ) {
+                    Log.d( DEBUG_TAG, "failed to update job lead at: " + position + "(" + ride.getKey() + ")" );
+                    Toast.makeText(getActivity().getApplicationContext(), "Failed to update " + ride.getKey(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else if( action == EditOfferFragment.DELETE ) {
+            Log.d( DEBUG_TAG, "Deleting job lead at: " + position + "(" + ride.getKey()+ ")" );
+
+            // remove the deleted job lead from the list (internal list in the App)
+            RideList.remove( position );
+
+            // Update the recycler view to remove the deleted job lead from that view
+            recyclerAdapter.notifyItemRemoved( position );
+
+            // Delete this job lead in Firebase.
+            // Note that we are using a specific key (one child in the list)
+            DatabaseReference ref = database
+                    .getReference()
+                    .child( "rideOffer" )
+                    .child( ride.getKey() );
+
+            // This listener will be invoked asynchronously, hence no need for an AsyncTask class, as in the previous apps
+            // to maintain job leads.
+            ref.addListenerForSingleValueEvent( new ValueEventListener() {
+                @Override
+                public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
+                    dataSnapshot.getRef().removeValue().addOnSuccessListener( new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d( DEBUG_TAG, "deleted job lead at: " + position + "(" + ride.getKey() + ")" );
+                            Toast.makeText(getActivity().getApplicationContext(), "Job lead deleted for " + ride.getKey(),
+                                    Toast.LENGTH_SHORT).show();                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled( @NonNull DatabaseError databaseError ) {
+                    Log.d( DEBUG_TAG, "failed to delete job lead at: " + position + "(" + ride.getKey() + ")" );
+                    Toast.makeText(getActivity().getApplicationContext(), "Failed to delete " + ride.getKey(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
 
 }

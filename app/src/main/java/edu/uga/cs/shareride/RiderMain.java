@@ -10,24 +10,26 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class RiderMain extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
-
+    Fragment newRideFrag = new NewRideFragment();
+    Fragment postedFrag = new PostedRideFragment();
+    Fragment confirmedFrag = new ConfirmedRideFragment();
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_main);
         bottomNavigationView = findViewById(R.id.navigation);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.new_ride);
-
+        Bundle bundle =new Bundle();
+        bundle.putString("site","Rider");
+        postedFrag.setArguments(bundle);
+        newRideFrag.setArguments(bundle);
         // When we open the application first
         // time the fragment should be shown to the user
         // in this case it is home fragment
     }
-    Fragment newRideFrag = new NewRideFragment();
-    Fragment postedFrag = new PostedRideFragment();
-    Fragment confirmedFrag = new ConfirmedRideFragment();
+
 
 
     @Override

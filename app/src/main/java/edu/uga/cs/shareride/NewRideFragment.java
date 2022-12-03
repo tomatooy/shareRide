@@ -3,7 +3,6 @@ package edu.uga.cs.shareride;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,6 +33,7 @@ public class NewRideFragment extends Fragment  {
     private Button button;
     private int cost = 50;
     final String Tag ="debug";
+    private String TABLE;
     public NewRideFragment() {
         // Required empty public constructor
     }
@@ -50,14 +50,22 @@ public class NewRideFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this
+        String site = this.getArguments().getString("site");
+        if(site.equals("Driver")){
+            TABLE = "rideOffer";
+        }
+        else{
+            TABLE = "rideRequest";
+        }
         final View layout = inflater.inflate(R.layout.fragment_new_ride,
-                getActivity().findViewById(R.id.root));
+                getActivity().findViewById(R.id.diagRoot));
         From = layout.findViewById(R.id.EditFrom);
         To = layout.findViewById(R.id.EditTo);
         Date = layout.findViewById(R.id.RideDate);
@@ -74,9 +82,9 @@ public class NewRideFragment extends Fragment  {
             String toData = To.getText().toString();
             String dateData = Date.getText().toString();
             Integer cost = new Integer(50);
-            Ride newRide = new Ride(true,cost,fromData,toData,dateData);
+            Ride newRide = new Ride(cost,fromData,toData,dateData);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("rideOffer");
+            DatabaseReference myRef = database.getReference(TABLE);
 
             // First, a call to push() appends a new node to the existing list (one is created
             // if this is done for the first time).  Then, we set the value in the newly created

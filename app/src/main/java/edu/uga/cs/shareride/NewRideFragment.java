@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,7 +34,8 @@ public class NewRideFragment extends Fragment  {
     private EditText To;
     private EditText Date;
     private Button button;
-    private int cost = 50;
+    private CheckBox checkIfFar;
+    private Integer cost;
     final String Tag ="debug";
     private String dbName;
     public NewRideFragment() {
@@ -72,18 +74,25 @@ public class NewRideFragment extends Fragment  {
         To = layout.findViewById(R.id.EditTo);
         Date = layout.findViewById(R.id.RideDate);
         button = layout.findViewById(R.id.buttonSubmit);
+        checkIfFar = (CheckBox) layout.findViewById(R.id.checkFar);
         button.setOnClickListener(new addNewRideListener());
         return layout;
     }
 
     private class addNewRideListener implements View.OnClickListener{
+
         @Override
         public void onClick(View view) {
             Log.d(Tag,"submit clicked");
             String fromData = From.getText().toString();
             String toData = To.getText().toString();
             String dateData = Date.getText().toString();
-            Integer cost = new Integer(50);
+            if (checkIfFar.isChecked()) {
+                cost = 100;
+            }
+            else {
+                cost = 50;
+            }
             Ride newRide = new Ride(cost,fromData,toData,dateData, currentUID);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference(dbName);

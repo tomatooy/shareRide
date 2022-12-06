@@ -49,6 +49,13 @@
             android:hint="Date"
             android:inputType="date" />
 
+        <CheckBox
+            android:id="@+id/checkFar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Is the location outside of Athens?" />
+
         <Button
             android:id="@+id/buttonSubmit"
             android:layout_width="match_parent"

@@ -27,13 +27,14 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
     }
 
     class RideHolder extends RecyclerView.ViewHolder {
-        TextView destination, departure, date;
+        TextView destination, departure, date, points;
         Button Edit,Delete;
         public RideHolder(View itemView) {
             super(itemView);
             destination = itemView.findViewById(R.id.destAddress);
             departure = itemView.findViewById(R.id.startAddress);
             date = itemView.findViewById(R.id.date);
+            points = itemView.findViewById(R.id.points);
             Edit = itemView.findViewById(R.id.EditRide);
             Delete = itemView.findViewById(R.id.ConfirmRide);
         }
@@ -49,13 +50,15 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
     public void onBindViewHolder(RideHolder holder, int position) {
         Ride ride = rideList.get(position);
         Log.d(DEBUG_TAG, "onBindViewHolder " + ride);
-        holder.destination.setText("To:"+ride.getDestLocation());
-        holder.departure.setText("From:"+ride.getStartLocation());
-        holder.date.setText("Date:"+ride.getDate());
+        holder.destination.setText("To: "+ride.getDestLocation());
+        holder.departure.setText("From: "+ride.getStartLocation());
+        holder.date.setText("Date: "+ride.getDate());
+        holder.points.setText("Points: " + ride.getPointCost());
         String key = ride.getKey();
         String destination = ride.getDestLocation();
         String startLocation = ride.getStartLocation();
         String date = ride.getDate();
+        Integer points = ride.getPointCost();
 
         holder.Edit.setOnClickListener(new View.OnClickListener() {
             @Override

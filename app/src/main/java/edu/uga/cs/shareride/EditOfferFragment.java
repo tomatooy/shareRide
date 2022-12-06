@@ -34,6 +34,9 @@ public class EditOfferFragment extends DialogFragment {
     String destination;
     String start;
     String date;
+    String userID;
+    String driverEmail;
+    String riderEmail;
     private String currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -41,9 +44,10 @@ public class EditOfferFragment extends DialogFragment {
         void updateOfferRide(int position, Ride ride, int action);
     }
 
-    public static EditOfferFragment newInstance(int position, String key,
+    public static EditOfferFragment newInstance(int position, Integer points, String key,
                                                 String destination, String start,
-                                                String date) {
+                                                String date, String userID, String driverEmail,
+                                                String riderEmail) {
         EditOfferFragment dialog = new EditOfferFragment();
 
         // Supply job lead values as an argument.
@@ -52,6 +56,9 @@ public class EditOfferFragment extends DialogFragment {
         args.putString("destination", destination);
         args.putString("start", start);
         args.putString("date", date);
+        args.putString("userID", userID);
+        args.putString("driverEmail", driverEmail);
+        args.putString("riderEmail", riderEmail);
         dialog.setArguments(args);
 
         return dialog;
@@ -66,6 +73,9 @@ public class EditOfferFragment extends DialogFragment {
         destination = getArguments().getString("destination");
         start = getArguments().getString("start");
         date = getArguments().getString("date");
+        userID = getArguments().getString("userID");
+        driverEmail = getArguments().getString("driverEmail");
+        riderEmail = getArguments().getString("riderEmail");
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View layout = inflater.inflate(R.layout.edit_dialog, getActivity().findViewById(R.id.diagRoot));
@@ -109,7 +119,7 @@ public class EditOfferFragment extends DialogFragment {
 
             Integer points = 50;
 
-            Ride ride = new Ride(points, startAddress, destAddress, depDate, currentUID);
+            Ride ride = new Ride(points, startAddress, destAddress, depDate, currentUID, driverEmail, riderEmail);
             ride.setKey(key);
 
             // get the Activity's listener to add the new job lead
@@ -130,7 +140,7 @@ public class EditOfferFragment extends DialogFragment {
 
             Integer points = 50;
 
-            Ride ride = new Ride(points, startAddress, destAddress, depDate, currentUID);
+            Ride ride = new Ride(points, startAddress, destAddress, depDate, currentUID, driverEmail, riderEmail);
             ride.setKey(key);
 
             // get the Activity's listener to add the new job lead

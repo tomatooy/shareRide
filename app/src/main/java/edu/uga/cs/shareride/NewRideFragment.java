@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class NewRideFragment extends Fragment  {
     private String currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private String currentEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     private EditText From;
     private EditText To;
     private EditText Date;
@@ -93,7 +94,14 @@ public class NewRideFragment extends Fragment  {
             else {
                 cost = 50;
             }
-            Ride newRide = new Ride(cost,fromData,toData,dateData, currentUID);
+            Ride newRide;
+            if(dbName == "rideOffer") {
+                newRide = new Ride(cost,fromData,toData,dateData, currentUID, currentEmail, null);
+            }
+            else {
+                newRide = new Ride(cost,fromData,toData,dateData, currentUID, null, currentEmail);
+            }
+            //Ride newRide = new Ride(cost,fromData,toData,dateData, currentUID, currentEmail);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference(dbName);
 

@@ -45,6 +45,7 @@ public class RequestedRideFragment extends Fragment {
     private String dbName;
 
     private String currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private String currentEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
     public RequestedRideFragment() {
         // Required empty public constructor
@@ -143,6 +144,7 @@ public class RequestedRideFragment extends Fragment {
                         // if ride is a request being fulfilled, add points to driver(current app user)
                         // and subtract points from rider(poster of request)
                         if(dbName == "rideRequest") {
+                            ride.setDriverEmail(currentEmail);
                             // add points to ride driver
                             Query queryDriver = pointRef.orderByChild("userID").equalTo(currentUID);
                             queryDriver.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -181,6 +183,7 @@ public class RequestedRideFragment extends Fragment {
 
                         // handles points for ride offers(opposite point exchange)
                         else if(dbName == "rideOffer") {
+                            ride.setRiderEmail(currentEmail);
                             // subtract points from rider
                             Query queryRider = pointRef.orderByChild("userID").equalTo(currentUID);
                             queryRider.addListenerForSingleValueEvent(new ValueEventListener() {

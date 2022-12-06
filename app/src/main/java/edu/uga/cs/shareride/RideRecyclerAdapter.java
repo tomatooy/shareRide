@@ -59,6 +59,9 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
         String startLocation = ride.getStartLocation();
         String date = ride.getDate();
         Integer points = ride.getPointCost();
+        String userID = ride.getPosterID();
+        String driverEmail = ride.getDriverEmail();
+        String riderEmail = ride.getRiderEmail();
 
         holder.Edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +69,7 @@ public class RideRecyclerAdapter extends RecyclerView.Adapter<RideRecyclerAdapte
                 //Log.d( TAG, "onBindViewHolder: getItemId: " + holder.getItemId() );
                 //Log.d( TAG, "onBindViewHolder: getAdapterPosition: " + holder.getAdapterPosition() );
                 EditOfferFragment editOfferFragment =
-                        EditOfferFragment.newInstance( holder.getAdapterPosition(), key, destination,startLocation, date );
+                        EditOfferFragment.newInstance( holder.getAdapterPosition(), points, key, destination,startLocation, date , userID, driverEmail, riderEmail);
                 editOfferFragment.setHostFragment(fragment);
                 editOfferFragment.show( ((AppCompatActivity)v.getContext()).getSupportFragmentManager(), null);
             }

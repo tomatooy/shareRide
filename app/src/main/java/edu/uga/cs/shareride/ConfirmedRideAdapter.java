@@ -25,12 +25,13 @@ public class ConfirmedRideAdapter extends  RecyclerView.Adapter<ConfirmedRideAda
     }
 
     class RideHolder extends RecyclerView.ViewHolder {
-        TextView destination, departure, date,driverEmail,riderEmail;
+        TextView destination, departure, date,driverEmail,riderEmail, points;
         public RideHolder(View itemView) {
             super(itemView);
             destination = itemView.findViewById(R.id.destAddress);
             departure = itemView.findViewById(R.id.startAddress);
             date = itemView.findViewById(R.id.date);
+            points = itemView.findViewById(R.id.points);
             driverEmail = itemView.findViewById(R.id.DriverEmail);
             riderEmail = itemView.findViewById(R.id.RiderEmail);
         }
@@ -47,11 +48,12 @@ public class ConfirmedRideAdapter extends  RecyclerView.Adapter<ConfirmedRideAda
     public void onBindViewHolder(ConfirmedRideAdapter.RideHolder holder, int position) {
         Ride ride = rideList.get(position);
         Log.d(DEBUG_TAG, "onBindViewHolder " + ride);
-        holder.destination.setText("To:"+ride.getDestLocation());
-        holder.departure.setText("From:"+ride.getStartLocation());
-        holder.date.setText("Date:"+ride.getDate());
-        holder.riderEmail.setText("Rider Email:");
-        holder.driverEmail.setText("Driver Email:");
+        holder.destination.setText("To: "+ride.getDestLocation());
+        holder.departure.setText("From: "+ride.getStartLocation());
+        holder.date.setText("Date: "+ride.getDate());
+        holder.points.setText("Points: " + ride.getPointCost());
+        holder.riderEmail.setText("Rider Email: " + ride.getRiderEmail());
+        holder.driverEmail.setText("Driver Email: " + ride.getDriverEmail());
 
     }
 

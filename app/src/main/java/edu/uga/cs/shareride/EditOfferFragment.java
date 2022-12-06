@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class EditOfferFragment extends DialogFragment {
 
@@ -32,6 +34,8 @@ public class EditOfferFragment extends DialogFragment {
     String destination;
     String start;
     String date;
+    private String currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     public interface EditOfferListener {
         void updateOfferRide(int position, Ride ride, int action);
@@ -105,7 +109,7 @@ public class EditOfferFragment extends DialogFragment {
 
             Integer points = 50;
 
-            Ride ride = new Ride(points, startAddress, destAddress, depDate);
+            Ride ride = new Ride(points, startAddress, destAddress, depDate, currentUID);
             ride.setKey(key);
 
             // get the Activity's listener to add the new job lead
@@ -126,7 +130,7 @@ public class EditOfferFragment extends DialogFragment {
 
             Integer points = 50;
 
-            Ride ride = new Ride(points, startAddress, destAddress, depDate);
+            Ride ride = new Ride(points, startAddress, destAddress, depDate, currentUID);
             ride.setKey(key);
 
             // get the Activity's listener to add the new job lead

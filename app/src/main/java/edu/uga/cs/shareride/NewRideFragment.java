@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * create an instance of this fragment.
  */
 public class NewRideFragment extends Fragment  {
+    private String currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private EditText From;
     private EditText To;
     private EditText Date;
@@ -82,7 +84,7 @@ public class NewRideFragment extends Fragment  {
             String toData = To.getText().toString();
             String dateData = Date.getText().toString();
             Integer cost = new Integer(50);
-            Ride newRide = new Ride(cost,fromData,toData,dateData);
+            Ride newRide = new Ride(cost,fromData,toData,dateData, currentUID);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference(dbName);
 

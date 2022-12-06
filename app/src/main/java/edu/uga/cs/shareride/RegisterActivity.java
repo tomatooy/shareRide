@@ -16,11 +16,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
 
 public class RegisterActivity extends AppCompatActivity {
+
+    private String dbName = "points";
+    private Integer ridePoints = 200;
 
     private static final String DEBUG_TAG = "RegisterActivity";
 
@@ -65,6 +70,15 @@ public class RegisterActivity extends AppCompatActivity {
                                 Log.d( DEBUG_TAG, "createUserWithEmail: success" );
 
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                                // create user table element with email
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference myRef = database.getReference(dbName);
+
+                                String currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                riderPoints points = new riderPoints(email, ridePoints, currentUID);
+                                myRef.push().setValue(points);
 
                                 Intent intent = new Intent( RegisterActivity.this, MainActivity.class );
                                 startActivity( intent );

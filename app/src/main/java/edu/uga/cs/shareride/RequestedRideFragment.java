@@ -19,10 +19,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ public class RequestedRideFragment extends Fragment {
     final String DEBUG_TAG = "PostRide";
     private FirebaseDatabase database;
     private String dbName;
+
+    private String currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public RequestedRideFragment() {
         // Required empty public constructor
@@ -127,12 +131,92 @@ public class RequestedRideFragment extends Fragment {
         recyclerAdapter.notifyItemRemoved( position );
         DatabaseReference ref = database.getReference().child(dbName).child(key);
 
+        DatabaseReference pointRef = database.getReference("points");
+
         ref.addListenerForSingleValueEvent( new ValueEventListener() {
             @Override
             public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
                 dataSnapshot.getRef().removeValue().addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        // edit points
+                        // if ride is a request being fulfilled, add points to driver(current app user)
+                        // and subtract points from rider(poster of request)
+                        if(dbName == "rideRequest") {
+                            // add points to ride driver
+                            Query queryDriver = pointRef.orderByChild("userID").equalTo(currentUID);
+                            queryDriver.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                                        riderPoints pointObject = postSnapshot.getValue(riderPoints.class);
+                                        Integer reqPoints = pointObject.getPoints();
+                                        Integer newPoints = reqPoints + ride.getPointCost();
+                                        riderPoints newRiderPoints = new riderPoints(pointObject.getEmail(), newPoints, pointObject.getUserID());
+                                        postSnapshot.getRef().setValue(newRiderPoints);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                            // subtract points from rider
+                            Query queryRider = pointRef.orderByChild("userID").equalTo(ride.getPosterID());
+                            queryRider.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                                        riderPoints pointObject = postSnapshot.getValue(riderPoints.class);
+                                        Integer reqPoints = pointObject.getPoints();
+                                        Integer newPoints = reqPoints - ride.getPointCost();
+                                        riderPoints newRiderPoints = new riderPoints(pointObject.getEmail(), newPoints, pointObject.getUserID());
+                                        postSnapshot.getRef().setValue(newRiderPoints);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
+
+                        // handles points for ride offers(opposite point exchange)
+                        else if(dbName == "rideOffer") {
+                            // subtract points from rider
+                            Query queryRider = pointRef.orderByChild("userID").equalTo(currentUID);
+                            queryRider.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                                        riderPoints pointObject = postSnapshot.getValue(riderPoints.class);
+                                        Integer reqPoints = pointObject.getPoints();
+                                        Integer newPoints = reqPoints - ride.getPointCost();
+                                        riderPoints newRiderPoints = new riderPoints(pointObject.getEmail(), newPoints, pointObject.getUserID());
+                                        postSnapshot.getRef().setValue(newRiderPoints);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                            // add points to driver
+                            Query queryDriver = pointRef.orderByChild("userID").equalTo(ride.getPosterID());
+                            queryDriver.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                                        riderPoints pointObject = postSnapshot.getValue(riderPoints.class);
+                                        Integer reqPoints = pointObject.getPoints();
+                                        Integer newPoints = reqPoints + ride.getPointCost();
+                                        riderPoints newRiderPoints = new riderPoints(pointObject.getEmail(), newPoints, pointObject.getUserID());
+                                        postSnapshot.getRef().setValue(newRiderPoints);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
+
                         Log.d( DEBUG_TAG, "confirmed: " + position + "(" + key + ")" );
                         Toast.makeText(getActivity().getApplicationContext(), "Job lead deleted for " + key,
                                 Toast.LENGTH_SHORT).show();

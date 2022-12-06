@@ -8,19 +8,23 @@ public class Ride {
     private String startLocation;
     private String date;
 
+    private String posterID;
+
     public Ride() {
         this.key = null;
         this.pointCost = null;
         this.destLocation = null;
         this.startLocation = null;
         this.date = null;
+        this.posterID = null;
     }
 
-    public Ride(Integer points, String start,String destination, String time) {
+    public Ride(Integer points, String start,String destination, String time, String posterID) {
         this.pointCost = points;
         this.destLocation = destination;
         this.startLocation = start;
         this.date = time;
+        this.posterID = posterID;
     }
 
     // getters
@@ -37,6 +41,7 @@ public class Ride {
         return startLocation;
     }
     public String getDate() { return date; }
+    public String getPosterID() { return posterID; }
 
     // setters
     public void setKey(String key) {
@@ -54,4 +59,5 @@ public class Ride {
     public void setDate(String date) {
         this.date = date;
     }
+    public void sertPosterID(String posterID) { this.posterID = posterID; }
 }

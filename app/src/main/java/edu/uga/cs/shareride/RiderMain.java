@@ -14,6 +14,7 @@ public class RiderMain extends AppCompatActivity implements BottomNavigationView
     Fragment postedFrag = new PostedRideFragment();
     Fragment confirmedFrag = new ConfirmedRideFragment();
     Fragment requestFrag = new RequestedRideFragment();
+    Fragment detailsFrag = new AccountDetailsFragment();
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class RiderMain extends AppCompatActivity implements BottomNavigationView
         postedFrag.setArguments(bundle);
         newRideFrag.setArguments(bundle);
         requestFrag.setArguments(bundle);
+        detailsFrag.setArguments(bundle);
         // When we open the application first
         // time the fragment should be shown to the user
         // in this case it is home fragment
@@ -48,6 +50,9 @@ public class RiderMain extends AppCompatActivity implements BottomNavigationView
                 return true;
             case R.id.posted_ride:
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, requestFrag).commit();
+                return true;
+            case R.id.account:
+                getSupportFragmentManager().beginTransaction().replace(R.id.Frame, detailsFrag).commit();
                 return true;
             default:
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, newRideFrag).commit();

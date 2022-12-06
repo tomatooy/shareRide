@@ -3,17 +3,21 @@
     <item
         android:id="@+id/requested_ride"
         android:icon="@drawable/ic_list"
-        android:title="Requested Ride" />
+        android:title="Requested" />
     <item
         android:id="@+id/posted_ride"
         android:icon="@drawable/ic_list"
-        android:title="Offered Ride" />
+        android:title="Offered" />
     <item
         android:id="@+id/new_ride"
         android:icon="@drawable/ic_add"
-        android:title="Request A Ride" />
+        android:title="Request" />
     <item
         android:id="@+id/confirmed_ride"
         android:icon="@drawable/ic_confirmed"
-        android:title="Confirmed Ride" />
+        android:title="Confirmed" />
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/fui_ic_anonymous_white_24dp"
+        android:title="Account" />
 </menu>

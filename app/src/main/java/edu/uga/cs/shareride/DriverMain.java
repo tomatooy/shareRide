@@ -28,6 +28,7 @@ public class DriverMain extends AppCompatActivity implements BottomNavigationVie
         postedFrag.setArguments(bundle);
         newRideFrag.setArguments(bundle);
         requestedFrag.setArguments(bundle);
+        detailsFrag.setArguments(bundle);
         // When we open the application first
         // time the fragment should be shown to the user
         // in this case it is home fragment
@@ -36,6 +37,7 @@ public class DriverMain extends AppCompatActivity implements BottomNavigationVie
     Fragment requestedFrag = new RequestedRideFragment();
     Fragment postedFrag = new PostedRideFragment();
     Fragment confirmedFrag = new ConfirmedRideFragment();
+    Fragment detailsFrag = new AccountDetailsFragment();
 
 
     @Override
@@ -52,6 +54,9 @@ public class DriverMain extends AppCompatActivity implements BottomNavigationVie
                 return true;
             case R.id.confirmed_ride:
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, confirmedFrag).commit();
+                return true;
+            case R.id.account:
+                getSupportFragmentManager().beginTransaction().replace(R.id.Frame, detailsFrag).commit();
                 return true;
         }
         return false;
